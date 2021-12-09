@@ -7,7 +7,7 @@ exports.createSauce = (req, res, next) => {
     delete sauceObject._id;
     const sauce = new Sauce({
         ...sauceObject,
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        imageUrl: `${req.protocol}://${req.get('host')}/assets/${req.file.filename}`
     });
     sauce.save()
     .then(() => res.status(201).json(console.log('Sauce créée !')))
@@ -97,7 +97,7 @@ exports.modifySauce = async (req, res, next) => {
     const sauceModifyObject = req.file ?
     {
         ...JSON.parse(req.body.sauce),
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        imageUrl: `${req.protocol}://${req.get('host')}/assets/${req.file.filename}`
     } : { ...req.body };
     try{
         const updateSauce = await Sauce.updateOne({ _id: req.params.id }, { ...sauceModifyObject, _id: req.params.id });
@@ -110,8 +110,8 @@ exports.modifySauce = async (req, res, next) => {
 exports.deleteSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id})
     .then (sauce =>{
-        const filename = sauce.imageUrl.split('/images/')[1];
-        fs.unlink(`images/${filename}`, () => {
+        const filename = sauce.imageUrl.split('/assets/')[1];
+        fs.unlink(`assets/${filename}`, () => {
             Sauce.deleteOne({  _id: req.params.id })
             .then(() => res.status(200).json({ error: 'Objet supprimé !' }))
             .catch(error => res.status(500).json({ error }));

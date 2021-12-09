@@ -22,7 +22,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/images', express.static(path.join(__dirname,'images/')));
+app.use('/assets', express.static(path.join(__dirname,'assets/')));
 
 app.use('/api/auth', userRoute);
 app.use('/api/sauces', sauceRoute);
