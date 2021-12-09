@@ -1,0 +1,23 @@
+{
+  "name": "back-end",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "st": "npm run start"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.4",
+    "mongoose-unique-validator": "^2.0.3",
+    "multer": "^1.4.3"
+  },
+  "devDependencies": {
+    "concurrently": "^6.4.0",
+    "dotenv": "^10.0.0"
+  }
+}
