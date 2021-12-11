@@ -30,7 +30,7 @@ exports.likeSauce = async (req, res, next) => {
             sauce.usersLiked.push(userId);
             sauce.likes += 1;
             await sauce.save();
-            res.status(201).json({ error: 'like ok' });
+            res.status(201).json({ message: 'like ok' });
         } else {
             Like.findOne({ userId: userId });
             res.status(400).json({ error: 'like déjà présent' });
@@ -42,7 +42,7 @@ exports.likeSauce = async (req, res, next) => {
             sauce.usersLiked.splice(userId, 1);
             sauce.likes += -1;
             await sauce.save();
-            res.status(200).json({ error: 'like retirer' });
+            res.status(200).json({ message: 'like retirer' });
         }
     }
 
@@ -58,7 +58,7 @@ exports.likeSauce = async (req, res, next) => {
             sauce.usersDisliked.push(userId);
             sauce.dislikes += 1;
             await sauce.save();
-            res.status(200).json({ error: 'dislike ok' });
+            res.status(200).json({ message: 'dislike ok' });
         } else {
             Like.findOne({ userId: userId });
             res.status(400).json({ error: 'dislike déjà présent' });
@@ -70,7 +70,7 @@ exports.likeSauce = async (req, res, next) => {
             sauce.usersDisliked.splice(userId, 1);
             sauce.dislikes += -1;
             await sauce.save();
-            res.status(200).json({ error: 'dislike retirer' });
+            res.status(200).json({ message: 'dislike retirer' });
         }
     }
 };

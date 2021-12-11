@@ -18,6 +18,9 @@
   },
   "devDependencies": {
     "concurrently": "^6.4.0",
-    "dotenv": "^10.0.0"
+    "dotenv": "^10.0.0",
+    "express-validator": "^6.13.0",
+    "nodemon": "^2.0.15",
+    "password-validator": "^5.2.1"
   }
 }

@@ -16,5 +16,3 @@ module.exports = (req, res, next) => {
         });
     }
 };
-
-// process.env.JWT_SECRET = 'ERTG_OUIU_FYKB_FTYI';

@@ -3,29 +3,36 @@ const jwt = require('jsonwebtoken');
 const User =  require('../models/User');
 
 exports.signUp = (req, res, next) => {
+    User.findOne({ email: req.body.email })
     const saltRounds = 10;
     let password = req.body.password;
-    bcrypt.hash(password, saltRounds, (err, hash) => {
-        const user = new User({
-            email: req.body.email,
-            password: hash
-        }); 
-        user.save()
-        .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-        .catch(error => res.status(400).json({ error }));
-    });
+    let email = req.body.email
+    if (!email) {
+        bcrypt.hash(password, saltRounds, (err, hash) => {
+            const user = new User({
+                email: req.body.email,
+                password: hash
+            });
+            user.save()
+            .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
+            .catch (error => res.status(400).json({ error }));
+        })
+    } else {
+        return res.status(400).json({ message: 'Email déja enregistrer !' })
+    }
+
 };
 
 exports.logIn = (req, res, next) => {
     User.findOne({ email: req.body.email })
     .then(user => {
         if (!user) {
-            return res.status(401).json({ error });
+            return res.status(400).json({ error: 'Utilisateur non trouvé !' });
         }
         bcrypt.compare(req.body.password, user.password)
         .then(valid => {
             if (!valid) {
-                return error => res.status(401).json({ error: error });
+                return res.status(400).json({ message: 'Mot de passe incorrect' });
             }
             res.status(200).json({
                 userId: user._id,
@@ -40,5 +47,3 @@ exports.logIn = (req, res, next) => {
     })
     .catch (error => res.status(500).json({ error: error }));
 };
-
-// process.env.JWT_SECRET = 'ERTG_OUIU_FYKB_FTYI'
