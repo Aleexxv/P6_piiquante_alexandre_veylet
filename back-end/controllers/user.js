@@ -3,31 +3,27 @@ const jwt = require('jsonwebtoken');
 const User =  require('../models/User');
 
 exports.signUp = (req, res, next) => {
-    User.findOne({ email: req.body.email })
     const saltRounds = 10;
     let password = req.body.password;
-    let email = req.body.email
-    if (!email) {
+    let email = req.body.email;
+
         bcrypt.hash(password, saltRounds, (err, hash) => {
             const user = new User({
-                email: req.body.email,
+                email: email,
                 password: hash
             });
             user.save()
             .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-            .catch (error => res.status(400).json({ error }));
+            .catch (message => res.status(400).json({ message : 'Email déja enregistrer !' }));
         })
-    } else {
-        return res.status(400).json({ message: 'Email déja enregistrer !' })
     }
 
-};
 
 exports.logIn = (req, res, next) => {
     User.findOne({ email: req.body.email })
     .then(user => {
         if (!user) {
-            return res.status(400).json({ error: 'Utilisateur non trouvé !' });
+            return res.status(400).json({ message: 'Utilisateur non trouvé !' });
         }
         bcrypt.compare(req.body.password, user.password)
         .then(valid => {
@@ -37,9 +33,9 @@ exports.logIn = (req, res, next) => {
             res.status(200).json({
                 userId: user._id,
                 token: jwt.sign(
-                    { userId: user._id},
+                    { userId: user._id },
                     process.env.JWT_SECRET,
-                    { expiresIn: '24h'}
+                    { expiresIn: '24h' }
                 )
             });
         })

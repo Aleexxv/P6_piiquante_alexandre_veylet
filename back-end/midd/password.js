@@ -17,5 +17,5 @@ module.exports = (req, res, next ) => {
     if (schema.validate(req.body.password)) {
         next();
     } else {
-        return res.status(400).json({message: 'Mot de passe faible, utilisez au moins 6 caratères avec 2 chiffres, les espaces sont interdit. Veuillez saisir un nouveau mot de passe.'})}
+        return res.status(400).json({message: 'Mot de passe faible, utilisez au moins 6 caratères avec 2 chiffres et un caractère spécial, les espaces sont interdit. Veuillez saisir un nouveau mot de passe.'})}
 }
